@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using ResourceBookingSystem.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
