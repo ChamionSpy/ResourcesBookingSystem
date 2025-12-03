@@ -1,0 +1,41 @@
+﻿@model ResourceBookingSystem.Models.Resource
+
+<h1>@Model.Name</h1>
+
+<!-- Display resource details -->
+<p><strong>Description:</strong> @Model.Description</p>
+<p><strong>Location:</strong> @Model.Location</p>
+<p><strong>Capacity:</strong> @Model.Capacity</p>
+<p><strong>Status:</strong> 
+    <!-- Show availability status -->
+    @if (Model.IsAvailable)
+    {
+        <span class="badge bg-success">Available</span>
+    }
+    else
+    {
+        <span class="badge bg-danger">Unavailable</span>
+    }
+</p>
+
+<h3>Upcoming Bookings</h3>
+@if (Model.Bookings.Any())
+{
+    <!-- List upcoming bookings only -->
+    <ul>
+        @foreach (var booking in Model.Bookings.Where(b => b.StartTime > DateTime.Now))
+        {
+            <li>
+                @booking.StartTime.ToString("g") to @booking.EndTime.ToString("g") -
+                @booking.BookedBy: @booking.Purpose
+            </li>
+        }
+    </ul>
+}
+else
+{
+    <p>No upcoming bookings</p>
+}
+
+<!-- Back button -->
+<a asp-action="Index" class="btn btn-secondary">Back to List</a>
