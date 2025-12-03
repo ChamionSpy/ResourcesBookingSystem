@@ -7,14 +7,14 @@ namespace ResourceBookingSystem.Models
     {
         public int Id { get; set; }  // Primary key
 
-        [Required]
+        [Required(ErrorMessage = "Name is required")]
         public string Name { get; set; } = "";  // Name of the resource
 
         public string Description { get; set; } = "";  // Optional description
         public string Location { get; set; } = "";     // Location of the resource
 
-        [Required]
-        [Range(1, int.MaxValue)]
+        [Required(ErrorMessage = "Capacity is required).")]
+        [Range(1, int.MaxValue, ErrorMessage = "Capacity must be a positive number.")]
         public int Capacity { get; set; }  // Maximum capacity
 
         public bool IsAvailable { get; set; } = true;  // Availability status

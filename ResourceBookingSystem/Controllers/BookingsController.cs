@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Azure.Core;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ResourceBookingSystem.Data;
 using ResourceBookingSystem.Models;
@@ -57,7 +58,7 @@ namespace ResourceBookingSystem.Controllers
 
                 if (hasConflict)
                 {
-                    ModelState.AddModelError("", "This resource is already booked during that time!");
+                    ModelState.AddModelError("", "This resource is already booked during the requested time.Please choose another slot or resource, or adjust your times.");
                 }
                 else
                 {

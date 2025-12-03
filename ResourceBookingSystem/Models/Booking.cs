@@ -8,19 +8,17 @@ namespace ResourceBookingSystem.Models
     {
         public int Id { get; set; }  // Primary key
 
-        [Required]
+        [Required(ErrorMessage = "Please select a resource")]
         public int ResourceId { get; set; }  // ID of the booked resource
 
-        [Required]
+        [Required(ErrorMessage = "StartTime is required")]
         public DateTime StartTime { get; set; }  // Booking start time
 
-        [Required]
+        [Required(ErrorMessage = "EndTime is required")]
         public DateTime EndTime { get; set; }  // Booking end time
-
-        [Required]
         public string BookedBy { get; set; } = "";  // Name of the person who booked
 
-        [Required]
+        [Required(ErrorMessage = "Purpose is required")]
         public string Purpose { get; set; } = "";  // Purpose of the booking
 
         // Navigation property to the booked resource
