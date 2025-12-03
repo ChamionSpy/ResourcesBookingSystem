@@ -18,24 +18,99 @@
     }
 </p>
 
-<h3>Upcoming Bookings</h3>
-@if (Model.Bookings.Any())
-{
-    <!-- List upcoming bookings only -->
-    <ul>
-        @foreach (var booking in Model.Bookings.Where(b => b.StartTime > DateTime.Now))
-        {
-            <li>
-                @booking.StartTime.ToString("g") to @booking.EndTime.ToString("g") -
-                @booking.BookedBy: @booking.Purpose
-            </li>
-        }
-    </ul>
-}
-else
-{
-    <p>No upcoming bookings</p>
-}
+<div class="mt-4">
+    <!-- Upcoming Bookings -->
+    <h4>Upcoming Bookings</h4>
+    @{
+        var upcomingBookings = Model.Bookings
+        .Where(b => b.Status == "Active" && b.StartTime > DateTime.Now)
+        .OrderBy(b => b.StartTime)
+        .ToList();
+    }
+
+    @if (upcomingBookings.Any())
+    {
+        <table class="table table-sm">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Booked By</th>
+                    <th>Purpose</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var booking in upcomingBookings)
+                {
+                    <tr>
+                        <td>@booking.StartTime.ToString("ddd, MMM d")</td>
+                        <td>@booking.StartTime.ToString("h:mm tt") - @booking.EndTime.ToString("h:mm tt")</td>
+                        <td>@booking.BookedBy</td>
+                        <td>@booking.Purpose</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <div class="alert alert-info">
+            No upcoming bookings scheduled.
+        </div>
+    }
+
+    <!-- Past & Canceled Bookings (collapsible) -->
+    @{
+        var pastBookings = Model.Bookings
+        .Where(b => b.StartTime <= DateTime.Now || b.Status == "Canceled")
+        .OrderByDescending(b => b.StartTime)
+        .ToList();
+    }
+
+    @if (pastBookings.Any())
+    {
+        <div class="mt-4">
+            <button class="btn btn-outline-secondary btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#pastBookings">
+                Show Past & Canceled Bookings (@pastBookings.Count)
+            </button>
+
+            <div class="collapse mt-2" id="pastBookings">
+                <table class="table table-sm table-bordered">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Booked By</th>
+                            <th>Purpose</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var booking in pastBookings)
+                        {
+                            <tr class="@(booking.Status == "Canceled" ? "table-danger" : "table-secondary")">
+                                <td>@booking.StartTime.ToString("ddd, MMM d")</td>
+                                <td>@booking.StartTime.ToString("h:mm tt") - @booking.EndTime.ToString("h:mm tt")</td>
+                                <td>@booking.BookedBy</td>
+                                <td>@booking.Purpose</td>
+                                <td>
+                                    @if (booking.Status == "Canceled")
+                                    {
+                                        <span class="badge bg-danger">Canceled</span>
+                                    }
+                                    else if (booking.StartTime <= DateTime.Now)
+                                    {
+                                        <span class="badge bg-secondary">Past</span>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
+</div>
 
 <!-- Back button -->
 <a asp-action="Index" class="btn btn-secondary">Back to List</a>
