@@ -3,6 +3,14 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <!-- Main heading and description -->
+    <h1 class="display-4">Internal Booking System</h1>
+    <p>Book internal resources easily.</p>
+
+    <!-- Action buttons for quick navigation -->
+    <div class="mt-5">
+        <a asp-controller="Resources" asp-action="Index" class="btn btn-primary btn-lg m-2">View Resources</a>
+        <a asp-controller="Bookings" asp-action="Create" class="btn btn-success btn-lg m-2">Make a Booking</a>
+        <a asp-controller="Bookings" asp-action="Index" class="btn btn-info btn-lg m-2">View All Bookings</a>
+    </div>
 </div>
