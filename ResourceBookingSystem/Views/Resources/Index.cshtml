@@ -1,9 +1,45 @@
 ﻿@model List<ResourceBookingSystem.Models.Resource>
 
+@{
+    ViewData["Title"] = "Resources";
+    var searchTerm = ViewBag.SearchTerm as string;
+}
+
 <h1>Resources</h1>
 
-<!-- Button to add a new resource -->
-<a asp-action="Create" class="btn btn-primary mb-2">Add New Resource</a>
+<!-- Search Bar -->
+<div class="card mb-4">
+    <div class="card-body">
+        <form method="get" asp-action="Index" class="row g-3">
+            <div class="col-md-8">
+                <div class="input-group">
+                    <input type="text" name="search" class="form-control"
+                           placeholder="Search by name, location, or description..."
+                           value="@searchTerm" />
+                    <button type="submit" class="btn btn-primary">
+                        Search
+                    </button>
+                    @if (!string.IsNullOrEmpty(searchTerm))
+                    {
+                        <a asp-action="Index" class="btn btn-outline-secondary">Clear</a>
+                    }
+                </div>
+            </div>
+            <div class="col-md-4">
+                <a asp-action="Create" class="btn btn-success float-end">Add New Resource</a>
+            </div>
+        </form>
+
+        @if (!string.IsNullOrEmpty(searchTerm))
+        {
+            <div class="mt-3">
+                <p class="text-muted">
+                    @Model.Count results for "<strong>@searchTerm</strong>"
+                </p>
+            </div>
+        }
+    </div>
+</div>
 
 <!-- Table to list all resources -->
 <table class="table">

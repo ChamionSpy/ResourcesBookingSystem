@@ -15,9 +15,25 @@ namespace ResourceBookingSystem.Controllers
         }
 
         // GET: List all resources
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string search = "")
         {
-            return View(await _context.Resources.ToListAsync());
+            // Get all resources
+            var resources = _context.Resources.AsQueryable();
+
+            // Apply search filter if search term is provided
+            if (!string.IsNullOrEmpty(search))
+            {
+                search = search.ToLower();
+                resources = resources.Where(r =>
+                    r.Name.ToLower().Contains(search) ||
+                    r.Location.ToLower().Contains(search) ||
+                    r.Description.ToLower().Contains(search));
+            }
+
+            // Pass search term to view
+            ViewBag.SearchTerm = search;
+
+            return View(await resources.ToListAsync());
         }
 
         // GET: Show resource details
