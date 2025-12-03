@@ -1,0 +1,43 @@
+﻿@model List<ResourceBookingSystem.Models.Resource>
+
+<h1>Resources</h1>
+
+<!-- Button to add a new resource -->
+<a asp-action="Create" class="btn btn-primary mb-3">Add New Resource</a>
+
+<!-- Table to list all resources -->
+<table class="table">
+    <tr>
+        <th>Name</th>
+        <th>Location</th>
+        <th>Capacity</th>
+        <th>Status</th>
+        <th>Actions</th>
+    </tr>
+
+    @foreach (var resource in Model)
+    {
+        <tr>
+            <td>@resource.Name</td>
+            <td>@resource.Location</td>
+            <td>@resource.Capacity</td>
+            <td>
+                <!-- Show availability status -->
+                @if (resource.IsAvailable)
+                {
+                    <span class="badge bg-success">Available</span>
+                }
+                else
+                {
+                    <span class="badge bg-danger">Unavailable</span>
+                }
+            </td>
+            <td>
+                <!-- Action buttons -->
+                <a asp-action="Details" asp-route-id="@resource.Id" class="btn btn-info btn-sm">Details</a>
+                <a asp-action="Edit" asp-route-id="@resource.Id" class="btn btn-warning btn-sm">Edit</a>
+                <a asp-action="Delete" asp-route-id="@resource.Id" class="btn btn-danger btn-sm">Delete</a>
+            </td>
+        </tr>
+    }
+</table>
