@@ -1,0 +1,35 @@
+﻿@model List<ResourceBookingSystem.Models.Booking>
+
+<h1>All Bookings</h1>
+
+<!-- Button to create a new booking -->
+<a asp-action="Create" class="btn btn-primary mb-3">New Booking</a>
+
+@if (!Model.Any())
+{
+    <p>No bookings found.</p>
+}
+else
+{
+    <!-- Table to list all bookings -->
+    <table class="table">
+        <tr>
+            <th>Resource</th>
+            <th>Start Time</th>
+            <th>End Time</th>
+            <th>Booked By</th>
+            <th>Purpose</th>
+        </tr>
+
+        @foreach (var booking in Model)
+        {
+            <tr>
+                <td>@booking.Resource?.Name</td>
+                <td>@booking.StartTime.ToString("g")</td>
+                <td>@booking.EndTime.ToString("g")</td>
+                <td>@booking.BookedBy</td>
+                <td>@booking.Purpose</td>
+            </tr>
+        }
+    </table>
+}
