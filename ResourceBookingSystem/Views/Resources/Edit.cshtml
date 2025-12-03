@@ -1,0 +1,66 @@
+﻿@model ResourceBookingSystem.Models.Resource
+
+@{
+    ViewData["Title"] = "Edit Resource";
+}
+
+<h1>Edit Resource</h1>
+<hr />
+
+<div class="row">
+    <div class="col-md-6">
+        <!-- Form to edit resource details -->
+        <form asp-action="Edit">
+            <!-- Validation summary -->
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+
+            <!-- Name field -->
+            <div class="form-group mb-3">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+
+            <!-- Description field -->
+            <div class="form-group mb-3">
+                <label asp-for="Description" class="control-label"></label>
+                <textarea asp-for="Description" class="form-control" rows="3"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+
+            <!-- Location field -->
+            <div class="form-group mb-3">
+                <label asp-for="Location" class="control-label"></label>
+                <input asp-for="Location" class="form-control" />
+                <span asp-validation-for="Location" class="text-danger"></span>
+            </div>
+
+            <!-- Capacity field -->
+            <div class="form-group mb-3">
+                <label asp-for="Capacity" class="control-label"></label>
+                <input asp-for="Capacity" class="form-control" />
+                <span asp-validation-for="Capacity" class="text-danger"></span>
+            </div>
+
+            <!-- Availability checkbox -->
+            <div class="form-group form-check mb-3">
+                <input class="form-check-input" asp-for="IsAvailable" />
+                <label class="form-check-label" asp-for="IsAvailable"></label>
+            </div>
+
+            <!-- Submit and cancel buttons -->
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <!-- Include validation scripts -->
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

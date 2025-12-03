@@ -1,0 +1,54 @@
+﻿@model ResourceBookingSystem.Models.Resource
+
+@{
+    ViewData["Title"] = "Delete Resource";
+}
+
+<h1>Delete Resource</h1>
+
+<!-- Confirmation message -->
+<h3>Are you sure you want to delete this?</h3>
+
+<!-- Warning about related bookings -->
+<div class="alert alert-danger">
+    <strong>Warning:</strong> Deleting this resource will also delete all associated bookings!
+</div>
+
+<!-- Resource details card -->
+<div class="card">
+    <div class="card-body">
+        <h4>@Model.Name</h4>
+        <hr />
+
+        <dl class="row">
+            <dt class="col-sm-4">Description:</dt>
+            <dd class="col-sm-8">@Model.Description</dd>
+
+            <dt class="col-sm-4">Location:</dt>
+            <dd class="col-sm-8">@Model.Location</dd>
+
+            <dt class="col-sm-4">Capacity:</dt>
+            <dd class="col-sm-8">@Model.Capacity</dd>
+
+            <dt class="col-sm-4">Status:</dt>
+            <dd class="col-sm-8">
+                <!-- Show availability status -->
+                @if (Model.IsAvailable)
+                {
+                    <span class="badge bg-success">Available</span>
+                }
+                else
+                {
+                    <span class="badge bg-danger">Unavailable</span>
+                }
+            </dd>
+        </dl>
+
+        <!-- Delete form -->
+        <form asp-action="Delete">
+            <input type="hidden" asp-for="Id" />
+            <input type="submit" value="Delete" class="btn btn-danger" />
+            <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+</div>
