@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ResourceBookingSystem.Models
@@ -24,6 +25,7 @@ namespace ResourceBookingSystem.Models
 
         // Navigation property to the booked resource
         [ForeignKey("ResourceId")]
+        [ValidateNever] //Skip validation during model binding
         public Resource Resource { get; set; } = null!;
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System.ComponentModel.DataAnnotations;
 
 namespace ResourceBookingSystem.Models
 {
@@ -19,6 +20,7 @@ namespace ResourceBookingSystem.Models
         public bool IsAvailable { get; set; } = true;  // Availability status
 
         // List of bookings for this resource
+        [ValidateNever] //Skip validation during model binding
         public List<Booking> Bookings { get; set; } = new();
     }
 }
