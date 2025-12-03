@@ -1,0 +1,57 @@
+﻿@model List<ResourceBookingSystem.Models.Booking>
+
+@{
+    ViewData["Title"] = "Canceled Bookings";
+}
+
+<h1>Canceled Bookings</h1>
+
+<div class="mb-3">
+    <a asp-action="Index" class="btn btn-secondary">Back to Active Bookings</a>
+</div>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info">
+        No canceled bookings found.
+    </div>
+}
+else
+{
+    <table class="table table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th>Resource</th>
+                <th>Start Time</th>
+                <th>End Time</th>
+                <th>Booked By</th>
+                <th>Purpose</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var booking in Model)
+            {
+                <tr>
+                    <td>@booking.Resource?.Name</td>
+                    <td>@booking.StartTime.ToString("g")</td>
+                    <td>@booking.EndTime.ToString("g")</td>
+                    <td>@booking.BookedBy</td>
+                    <td>@booking.Purpose</td>
+                    <td>
+                        <span class="badge bg-danger">Canceled</span>
+                    </td>
+                    <td>
+                        <a asp-action="Details" asp-route-id="@booking.Id" class="btn btn-info btn-sm">Details</a>
+                        <form asp-action="Delete" method="post" class="d-inline"
+                              onsubmit="return confirm('Permanently delete this booking? This cannot be undone!');">
+                            <input type="hidden" name="id" value="@booking.Id" />
+                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

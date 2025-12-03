@@ -1,13 +1,28 @@
 ﻿@model List<ResourceBookingSystem.Models.Booking>
 
-<h1>All Bookings</h1>
+<h1>Active  Bookings</h1>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["ErrorMessage"]
+    </div>
+}
 
 <!-- Button to create a new booking -->
-<a asp-action="Create" class="btn btn-primary mb-3">New Booking</a>
+<a asp-action="Create" class="btn btn-primary">New Booking</a>
+<a asp-action="Canceled" class="btn btn-secondary">View Canceled Bookings</a>
 
 @if (!Model.Any())
 {
-    <p>No bookings found.</p>
+    <p>No active bookings found.</p>
 }
 else
 {
@@ -19,6 +34,8 @@ else
             <th>End Time</th>
             <th>Booked By</th>
             <th>Purpose</th>
+            <th>Status</th>
+            <th>Actions</th>
         </tr>
 
         @foreach (var booking in Model)
@@ -29,6 +46,21 @@ else
                 <td>@booking.EndTime.ToString("g")</td>
                 <td>@booking.BookedBy</td>
                 <td>@booking.Purpose</td>
+                <td>
+                    @if (booking.Status == "Active")
+                    {
+                        <span class="badge bg-success">Active</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-danger">Canceled</span>
+                    }
+                </td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@booking.Id" class="btn btn-info btn-sm">Details</a>
+                    <a asp-action="Edit" asp-route-id="@booking.Id" class="btn btn-warning btn-sm">Edit</a>
+                    <a asp-action="Cancel" asp-route-id="@booking.Id" class="btn btn-danger btn-sm">Cancel</a>
+                </td>
             </tr>
         }
     </table>

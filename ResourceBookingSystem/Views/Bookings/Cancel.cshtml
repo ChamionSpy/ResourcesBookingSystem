@@ -1,0 +1,66 @@
+﻿@model ResourceBookingSystem.Models.Booking
+
+@{
+    ViewData["Title"] = "Cancel Booking";
+}
+
+<h1>Cancel Booking #@Model.Id</h1>
+
+<div class="alert alert-danger">
+    <h4>Are you sure you want to cancel this booking?</h4>
+    <p class="mb-0">This action cannot be undone. The booking will be marked as canceled.</p>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h4>Booking Details</h4>
+    </div>
+    <div class="card-body">
+        <dl class="row">
+            <dt class="col-sm-3">Resource:</dt>
+            <dd class="col-sm-9">@Model.Resource?.Name</dd>
+
+            <dt class="col-sm-3">Start Time:</dt>
+            <dd class="col-sm-9">@Model.StartTime.ToString("g")</dd>
+
+            <dt class="col-sm-3">End Time:</dt>
+            <dd class="col-sm-9">@Model.EndTime.ToString("g")</dd>
+
+            <dt class="col-sm-3">Booked By:</dt>
+            <dd class="col-sm-9">@Model.BookedBy</dd>
+
+            <dt class="col-sm-3">Purpose:</dt>
+            <dd class="col-sm-9">@Model.Purpose</dd>
+
+            <dt class="col-sm-3">Current Status:</dt>
+            <dd class="col-sm-9">
+                @if (Model.Status == "Active")
+                {
+                    <span class="badge bg-success">Active</span>
+                }
+                else
+                {
+                    <span class="badge bg-danger">Canceled</span>
+                }
+            </dd>
+        </dl>
+    </div>
+</div>
+
+<div class="mt-4">
+    <form asp-action="Cancel">
+        <input type="hidden" asp-for="Id" />
+        <button type="submit" class="btn btn-danger">Yes, Cancel This Booking</button>
+        <a asp-action="Index" asp-route-id="@Model.Id" class="btn btn-secondary">No, Go Back</a>
+    </form>
+</div>
+
+<div class="alert alert-info mt-3">
+    <h5>What happens when you cancel:</h5>
+    <ul class="mb-0">
+        <li>Booking will be marked as "Canceled"</li>
+        <li>It will no longer appear in active bookings</li>
+        <li>You can view it in the canceled bookings list</li>
+        <li>The time slot becomes available for others to book</li>
+    </ul>
+</div>

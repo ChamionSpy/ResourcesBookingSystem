@@ -1,0 +1,132 @@
+﻿@model ResourceBookingSystem.Models.Booking
+@{
+    var resources = ViewBag.Resources as List<ResourceBookingSystem.Models.Resource>;
+    ViewData["Title"] = "Edit Booking";
+}
+
+<h1>✏️ Edit Booking #@Model.Id</h1>
+
+<hr />
+
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="Edit">
+            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="Status" />
+
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group mb-3">
+                <label asp-for="ResourceId" class="control-label">Select Resource</label>
+                <select asp-for="ResourceId" class="form-control" required>
+                    <option value="">-- Choose a Resource --</option>
+                    @if (resources != null)
+                    {
+                        foreach (var resource in resources)
+                        {
+                            <option value="@resource.Id" selected="@(resource.Id == Model.ResourceId)">
+                                @resource.Name (Capacity: @resource.Capacity, Location: @resource.Location)
+                            </option>
+                        }
+                    }
+                </select>
+                <span asp-validation-for="ResourceId" class="text-danger"></span>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group mb-3">
+                        <label asp-for="StartTime" class="control-label"></label>
+                        <input asp-for="StartTime" class="form-control" type="datetime-local" required />
+                        <span asp-validation-for="StartTime" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group mb-3">
+                        <label asp-for="EndTime" class="control-label"></label>
+                        <input asp-for="EndTime" class="form-control" type="datetime-local" required />
+                        <span asp-validation-for="EndTime" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="BookedBy" class="control-label"></label>
+                <input asp-for="BookedBy" class="form-control" required />
+                <span asp-validation-for="BookedBy" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Purpose" class="control-label"></label>
+                <input asp-for="Purpose" class="form-control" required />
+                <span asp-validation-for="Purpose" class="text-danger"></span>
+            </div>
+
+            @if (ViewData.ModelState.ContainsKey(""))
+            {
+                <div class="alert alert-danger">
+                    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+                </div>
+            }
+
+            <div class="form-group">
+                <input type="submit" value="Save Changes" class="btn btn-primary" />
+                <a asp-action="Index" asp-route-id="@Model.Id" class="btn btn-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-warning text-white">
+                <h5 class="mb-0">Editing Guidelines</h5>
+            </div>
+            <div class="card-body">
+                <ul>
+                    <li><strong>End time must be after start time</strong></li>
+                    <li>Cannot overlap with other active bookings</li>
+                    <li>Booking will remain active after editing</li>
+                    <li>Canceled bookings cannot be edited</li>
+                </ul>
+
+                <div class="alert alert-info">
+                    <strong>Current Status:</strong>
+                    @if (Model.Status == "Active")
+                    {
+                        <span class="badge bg-success">Active</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-danger">Canceled</span>
+                    }
+                </div>
+
+                <div class="alert alert-warning">
+                    <strong>Note:</strong> The system will check for conflicts with other active bookings.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        // Client-side validation for end time
+        $(document).ready(function() {
+            $('form').submit(function(e) {
+                var startTime = new Date($('#StartTime').val());
+                var endTime = new Date($('#EndTime').val());
+
+                if (endTime <= startTime) {
+                    e.preventDefault();
+                    alert('Error: End time must be after start time!');
+                    return false;
+                }
+            });
+        });
+    </script>
+}
