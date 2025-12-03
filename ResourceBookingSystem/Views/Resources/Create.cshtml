@@ -1,0 +1,40 @@
+﻿@model ResourceBookingSystem.Models.Resource
+
+<h1>Add New Resource</h1>
+
+<!-- Form to create a new resource -->
+<form asp-action="Create">
+    <div class="mb-3">
+        <label>Name:</label>
+        <input asp-for="Name" class="form-control" />
+        <!-- Validation message for Name -->
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label>Description:</label>
+        <textarea asp-for="Description" class="form-control"></textarea>
+    </div>
+
+    <div class="mb-3">
+        <label>Location:</label>
+        <input asp-for="Location" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label>Capacity:</label>
+        <input asp-for="Capacity" class="form-control" />
+        <!-- Validation message for Capacity -->
+        <span asp-validation-for="Capacity" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <!-- Checkbox for availability -->
+        <label>
+            <input asp-for="IsAvailable" /> Available
+        </label>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>
