@@ -21,6 +21,10 @@ namespace ResourceBookingSystem.Models
         [Required(ErrorMessage = "Purpose is required")]
         public string Purpose { get; set; } = "";  // Purpose of the booking
 
+        // Add status field
+        [Display(Name = "Status")]
+        public string Status { get; set; } = "Active"; // Active, Canceled
+
         // Navigation property to the booked resource
         [ForeignKey("ResourceId")]
         [ValidateNever] //Skip validation during model binding
