@@ -1,0 +1,62 @@
+﻿@model ResourceBookingSystem.Models.Booking
+@{
+    // Get available resources from ViewBag
+    var resources = ViewBag.Resources as List<ResourceBookingSystem.Models.Resource>;
+}
+
+<h1>Create Booking</h1>
+
+<!-- Form to create a new booking -->
+<form asp-action="Create">
+    <div class="mb-3">
+        <label>Resource:</label>
+        <select asp-for="ResourceId" class="form-control" required>
+            <option value="">-- Select Resource --</option>
+            @foreach (var resource in resources)
+            {
+                <option value="@resource.Id">@resource.Name (Capacity: @resource.Capacity)</option>
+            }
+        </select>
+        <!-- Validation message for Resource -->
+        <span asp-validation-for="ResourceId" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label>Start Time:</label>
+        <input asp-for="StartTime" class="form-control" type="datetime-local" required />
+        <!-- Validation message for StartTime -->
+        <span asp-validation-for="StartTime" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label>End Time:</label>
+        <input asp-for="EndTime" class="form-control" type="datetime-local" required />
+        <!-- Validation message for EndTime -->
+        <span asp-validation-for="EndTime" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label>Booked By:</label>
+        <input asp-for="BookedBy" class="form-control" required />
+        <!-- Validation message for BookedBy -->
+        <span asp-validation-for="BookedBy" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label>Purpose:</label>
+        <input asp-for="Purpose" class="form-control" required />
+        <!-- Validation message for Purpose -->
+        <span asp-validation-for="Purpose" class="text-danger"></span>
+    </div>
+
+    <!-- Show validation summary for booking conflicts -->
+    @if (ViewData.ModelState.ContainsKey(""))
+    {
+        <div class="alert alert-danger">
+            @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+        </div>
+    }
+
+    <button type="submit" class="btn btn-primary">Book</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>
